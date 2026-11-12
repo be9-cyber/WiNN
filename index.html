@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한국공학대학교 연구성과 포털 | TU Korea Research Hub</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20%220%22%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f6fc',
+              100: '#e1eef9',
+              200: '#c5ddf3',
+              500: '#3a7bd5',
+              600: '#2a69c2',
+              700: '#1d54a6',
+              800: '#174383',
+              900: '#123567',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    * {
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+    .carousel-slider {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .carousel-slide {
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- Header / Navigation (단색 플랫 헤더) -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-slate-800 dark:bg-slate-700 flex items-center justify-center text-white">
+          <i data-lucide="graduation-cap" class="w-5 h-5 text-sky-300"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">한국공학대학교</span>
+            <span class="text-xs px-2.5 py-0.5 rounded font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Research Hub</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">첨단 공학 산학융합 연구 성과 포털</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2">
+        <!-- Bookmark Pill -->
+        <button onclick="toggleBookmarkDrawer()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition text-xs font-medium">
+          <i data-lucide="bookmark" class="w-4 h-4 text-amber-500"></i>
+          <span class="hidden sm:inline">관심 연구</span>
+          <span id="bookmark-badge" class="w-5 h-5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 text-[11px] flex items-center justify-center font-bold">0</span>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" aria-label="Toggle Dark Mode">
+          <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:inline"></i>
+        </button>
+
+        <!-- Inquiry button -->
+        <button onclick="openInquiryModal()" class="hidden md:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 dark:bg-sky-700 dark:hover:bg-sky-600 text-white text-xs px-3.5 py-2 rounded-lg font-medium transition">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+          <span>기술이전/연구 문의</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. [최상단 배치] 이달의 R&D 스포트라이트 (배경 연구 사진 + 차분한 단색 솔리드 마스크) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
+    <div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8">
+      
+      <!-- [배경 사진 레이어] 반도체/스마트제조 연구 환경 사진 -->
+      <div 
+        class="absolute inset-0 bg-cover bg-center pointer-events-none"
+        style="background-image: url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80'); opacity: 0.14;"
+      ></div>
+
+      <!-- [차분한 단색 반투명 오버레이 - 그라데이션 완전 배제] -->
+      <div class="absolute inset-0 bg-white/90 dark:bg-slate-900/90 pointer-events-none"></div>
+
+      <!-- 콘텐츠 레이어 -->
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- 좌측 설명 -->
+        <div class="lg:col-span-8 space-y-3">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 text-xs font-semibold border border-amber-200 dark:border-amber-900/50">
+            <i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i>
+            이달의 R&D 스포트라이트
+          </div>
+          
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-snug">
+            반도체 이송로봇 AI 고장 예지보전 &amp; <span class="text-sky-700 dark:text-sky-400">대한기계학회 백암논문상</span> 수상
+          </h2>
+          
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal max-w-2xl">
+            <strong>김효영 교수</strong>(메카트로닉스공학부) 연구팀은 웨이퍼 이송 로봇(WTR)의 Z축 구동 벨트 마모 진동을 머신러닝으로 실시간 분석하여 설비 정지 전에 고장을 사전 예측하는 스마트 제조 AI 기술을 개발했습니다. 이 연구는 2026년 대한기계학회 생산공학 최고 권위인 <strong>'백암논문상'</strong> 및 2025 한국정밀공학회 <strong>최우수논문상</strong>을 수상했습니다.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-1.5 pt-1">
+            <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">#반도체공정</span>
+            <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">#AI예지보전</span>
+            <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">#IJPEM-GT</span>
+            <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">#대한기계학회</span>
+          </div>
+
+          <!-- 액션 버튼 -->
+          <div class="flex flex-wrap gap-2.5 pt-2">
+            <button onclick="openDetailModal('TU-2026-MECH-01')" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-medium text-xs transition flex items-center gap-1.5">
+              <i data-lucide="eye" class="w-3.5 h-3.5"></i> 연구 상세 보기
+            </button>
+            <button onclick="openInquiryModal('반도체 이송로봇 AI 예지보전 기술 협의')" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium text-xs transition flex items-center gap-1.5">
+              <i data-lucide="handshake" class="w-3.5 h-3.5"></i> 산학협력 문의
+            </button>
+          </div>
+        </div>
+
+        <!-- 우측: 차분한 단색 정보 카드 -->
+        <div class="lg:col-span-4 flex justify-end">
+          <div class="w-full max-w-xs rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 p-4 space-y-2.5">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+              <span class="text-[11px] font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-500"></i> 학술 최고 영예
+              </span>
+              <span class="text-xs font-semibold text-slate-700 dark:text-slate-200">2026 백암논문상</span>
+            </div>
+            <p class="text-[11px] leading-relaxed text-slate-600 dark:text-slate-300">
+              "웨이퍼 이송 로봇의 구동 벨트 이상을 실시간 AI로 감지하여 제조 라인 다운타임을 85% 감축한 스마트팩토리 혁신 성과"
+            </p>
+            <div class="pt-1 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700">
+              <span>한국공학대 메카트로닉스</span>
+              <span class="font-medium text-slate-700 dark:text-slate-300">김효영 교수 연구팀</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4대 성과 요약 (단색 플랫 카드) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 w-full">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <!-- Card 1 -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1">
+          <span class="text-xs font-medium">최고 권위 논문</span>
+          <i data-lucide="award" class="w-4 h-4 text-sky-600"></i>
+        </div>
+        <div class="text-xl font-bold text-slate-900 dark:text-white">SCI / JCR Top</div>
+        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">STTT, ACS Nano, Nanoscale</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1">
+          <span class="text-xs font-medium">수억원 대 기술이전</span>
+          <i data-lucide="handshake" class="w-4 h-4 text-emerald-600"></i>
+        </div>
+        <div class="text-xl font-bold text-slate-900 dark:text-white">실용 상용화 연계</div>
+        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">광학스펙클·OS복구·무인기기</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1">
+          <span class="text-xs font-medium">3D 바이오프린팅</span>
+          <i data-lucide="dna" class="w-4 h-4 text-indigo-600"></i>
+        </div>
+        <div class="text-xl font-bold text-slate-900 dark:text-white">인공장기 모델링</div>
+        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">인체 피부 및 미세조직 체적 조립</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1">
+          <span class="text-xs font-medium">미래모빌리티</span>
+          <i data-lucide="car" class="w-4 h-4 text-amber-600"></i>
+        </div>
+        <div class="text-xl font-bold text-slate-900 dark:text-white">인천·경기 RISE</div>
+        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">전기차 배터리진단·공동 R&D</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 w-full space-y-5">
+
+    <!-- Search & Filter Controls (단색 차분한 UI) -->
+    <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 space-y-3">
+      <div class="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center">
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="교수명, 연구 키워드(예: 반도체, 나노바이오, 바이오프린팅, 기술이전, AI)..." 
+            class="w-full pl-9 pr-8 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:border-sky-500 text-xs sm:text-sm text-slate-800 dark:text-white"
+          >
+          <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Year & Type Filter -->
+        <div class="flex items-center gap-2">
+          <select id="year-filter" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium focus:outline-none text-slate-700 dark:text-slate-300">
+            <option value="ALL">전체 연도</option>
+            <option value="2026">2026년</option>
+            <option value="2025">2025년</option>
+            <option value="2024">2024년</option>
+          </select>
+
+          <select id="type-filter" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium focus:outline-none text-slate-700 dark:text-slate-300">
+            <option value="ALL">모든 성과 유형</option>
+            <option value="PAPER">저널 논문</option>
+            <option value="TECH_TRANSFER">기술이전 및 산학</option>
+            <option value="AWARD">학술 수상</option>
+            <option value="PATENT">특허 및 시작품</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills (단색 플랫 버튼) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 custom-scrollbar text-xs" id="category-pills">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- 2. 연구 성과 가로 슬라이더 섹션 -->
+    <div class="space-y-3">
+      <!-- Carousel Header with Navigation Buttons -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">
+              연구 성과 브라우징
+            </h3>
+            <span class="text-xs text-slate-500 font-medium">(총 <span id="results-count" class="font-bold text-slate-800 dark:text-slate-200">0</span>건)</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            좌우 화살표 버튼이나 마우스 휠로 옆으로 넘기면서 탐색할 수 있습니다.
+          </p>
+        </div>
+
+        <!-- Carousel Controller Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Page Counter -->
+          <div class="text-xs font-medium px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+            <span id="carousel-current">1</span> / <span id="carousel-total">1</span>
+          </div>
+
+          <button 
+            id="carousel-prev-btn" 
+            onclick="scrollCarousel(-1)" 
+            class="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition"
+            aria-label="이전 연구 보기"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button 
+            id="carousel-next-btn" 
+            onclick="scrollCarousel(1)" 
+            class="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition"
+            aria-label="다음 연구 보기"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Horizontal Carousel Container -->
+      <div 
+        id="carousel-container" 
+        class="carousel-slider flex gap-4 overflow-x-auto pb-3 pt-1 custom-scrollbar scroll-smooth"
+      >
+        <!-- Cards injected by JavaScript -->
+      </div>
+
+      <!-- Carousel Pagination Dots -->
+      <div id="carousel-dots" class="flex items-center justify-center gap-1.5 pt-1">
+        <!-- Dots injected by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-14 px-4 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
+      <div class="w-12 h-12 mx-auto mb-2 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-lg flex items-center justify-center">
+        <i data-lucide="search-x" class="w-6 h-6"></i>
+      </div>
+      <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300">해당 조건의 연구 성과가 없습니다</h3>
+      <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">키워드를 변경하거나 상단 분야 필터에서 [전체 분야]를 선택해 보세요.</p>
+      <button onclick="resetAllFilters()" class="mt-3 px-3 py-1.5 bg-slate-800 text-white text-xs rounded-lg hover:bg-slate-700 font-medium">
+        전체 필터 초기화
+      </button>
+    </div>
+
+    <!-- Visual Dashboard (단색 차트) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+      <!-- Sector Distribution Chart Card -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">
+            분야별 연구 성과 점유율
+          </h2>
+          <span class="text-[11px] text-slate-400">2024~2026 집계</span>
+        </div>
+        <div class="relative flex-grow flex items-center justify-center min-h-[180px]">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Annual Output Chart Card -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-white">
+            연도별 논문 &amp; 기술이전 실적 추이
+          </h2>
+          <span class="text-[11px] text-slate-400">건수 단위</span>
+        </div>
+        <div class="relative flex-grow flex items-center justify-center min-h-[180px]">
+          <canvas id="annualChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Detail Modal -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-slate-900/50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-slate-200 dark:border-slate-800 shadow-xl">
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between bg-slate-50 dark:bg-slate-800/50">
+        <div>
+          <div class="flex items-center gap-2 mb-2" id="modal-badges"></div>
+          <h3 id="modal-title" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight"></h3>
+        </div>
+        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 overflow-y-auto space-y-4 custom-scrollbar text-xs sm:text-sm leading-relaxed" id="modal-content">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
+        <button id="modal-bookmark-btn" onclick="toggleModalBookmark()" class="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
+          <i data-lucide="bookmark" class="w-4 h-4 text-amber-500"></i>
+          <span>관심 연구 저장</span>
+        </button>
+        <button onclick="closeDetailModal()" class="px-3.5 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookmark Drawer -->
+  <div id="bookmark-drawer" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex justify-end">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md h-full shadow-xl flex flex-col border-l border-slate-200 dark:border-slate-800">
+      <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="bookmark-check" class="w-4 h-4 text-amber-500"></i>
+          <h3 class="font-bold text-slate-900 dark:text-white text-sm">보관된 연구 성과 (<span id="drawer-count">0</span>)</h3>
+        </div>
+        <button onclick="toggleBookmarkDrawer()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-4 flex-grow overflow-y-auto space-y-2.5 custom-scrollbar" id="bookmark-list">
+        <!-- Bookmark items injected -->
+      </div>
+      <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 flex gap-2">
+        <button onclick="clearAllBookmarks()" class="w-1/2 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg border border-rose-200 dark:border-rose-900 transition">
+          전체 비우기
+        </button>
+        <button onclick="copyBookmarkList()" class="w-1/2 py-2 text-xs font-medium bg-slate-800 dark:bg-sky-700 text-white rounded-lg hover:bg-slate-900 transition flex items-center justify-center gap-1">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i> 목록 복사
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inquiry Modal -->
+  <div id="inquiry-modal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-5 border border-slate-200 dark:border-slate-800 shadow-xl">
+      <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <h3 class="font-bold text-base text-slate-900 dark:text-white">산학협력 및 기술이전 문의</h3>
+          <p class="text-xs text-slate-500">한국공학대 교수진과 기술이전 및 공동 연구를 협의하세요.</p>
+        </div>
+        <button onclick="closeInquiryModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form id="inquiry-form" onsubmit="submitInquiry(event)" class="space-y-3 text-xs sm:text-sm">
+        <div>
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">문의 연구 / 기술명</label>
+          <input type="text" id="inquiry-subject" required class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none focus:border-sky-500">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">기업/기관명</label>
+            <input type="text" required placeholder="예: (주)테크솔루션" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none focus:border-sky-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">담당자 성함</label>
+            <input type="text" required placeholder="홍길동 수석" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none focus:border-sky-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">연락처 / 이메일</label>
+          <input type="text" required placeholder="contact@company.com" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none focus:border-sky-500">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">협력 내용</label>
+          <textarea rows="3" required placeholder="기술이전 조건, 공동 연구 과제 협의 등" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none focus:border-sky-500"></textarea>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeInquiryModal()" class="px-3.5 py-1.5 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 transition">
+            취소
+          </button>
+          <button type="submit" class="px-3.5 py-1.5 bg-slate-800 dark:bg-sky-700 text-white text-xs font-medium rounded-lg hover:bg-slate-900 transition flex items-center gap-1.5">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i> 문의 접수
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-200 bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-lg flex items-center gap-2 text-xs border border-slate-800">
+    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+    <span id="toast-message">알림</span>
+  </div>
+
+  <!-- Footer (단색 플랫) -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-xs text-slate-500 dark:text-slate-400 mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div>
+        <p class="font-bold text-slate-700 dark:text-slate-300">한국공학대학교 (Tech University of Korea)</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">경기도 시흥시 산기대학로 237 (정왕동) | 2024~2026 우수 연구 성과 쇼케이스</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://www.tukorea.ac.kr" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition">대학 공식홈</a>
+        <span>•</span>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-1 hover:text-slate-900 dark:hover:text-white transition">
+          <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i> 맨 위로
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script: Data Model & Carousel Navigation Logic -->
+  <script>
+    // 1. Research Data (한국공학대학교 2024~2026 최신 실제 성과)
+    const researchData = [
+      {
+        id: "TU-2026-MECH-01",
+        title: "반도체 이송 로봇 Z축 고장 조기예측 스마트 AI 유지보수 시스템",
+        category: "반도체·AI제조",
+        professors: ["김효영 교수"],
+        department: "메카트로닉스공학부 지능형제조공학전공",
+        year: "2026",
+        type: "AWARD",
+        typeName: "학술상 & SCI 논문",
+        journal: "대한기계학회 백암논문상 (2026.06) / IJPEM-Green Tech",
+        summary: "웨이퍼 이송 로봇(WTR)의 Z축 벨트 마모 및 텐션 저하 시 진동 신호를 머신러닝 알고리즘으로 분석해 사전 고장을 예지하는 친환경 자율제조 기술.",
+        impact: "라인 다운타임 85% 감축, 2025 한국정밀공학회 최우수논문상 및 2026 대한기계학회 백암논문상 수상 영예",
+        keywords: ["반도체장비", "웨이퍼이송로봇", "머신러닝", "고장예지(PHM)", "스마트팩토리", "백암논문상"],
+        metrics: { citations: 18, tlv: "TRL 7 (시제품 라인 실증)" }
+      },
+      {
+        id: "TU-2026-BIO-01",
+        title: "차세대 나노바이오 전달체 기반 표적 항암면역치료 및 피부 항노화 원천기술",
+        category: "바이오·나노",
+        professors: ["유동길 교수"],
+        department: "생명화학공학과",
+        year: "2026",
+        type: "PAPER",
+        typeName: "세계적 저널 게재",
+        journal: "Journal of Nanobiotechnology & Nanoscale (2026 연속 게재)",
+        summary: "종양 미세환경을 정밀 타깃하는 나노 생체소재를 설계하여 면역반응을 극대화하는 암 치료법 및 피부 세포 재생을 유도하는 항노화 나노복합체 개발.",
+        impact: "교육부 및 한국연구재단 과제 선정, STTT (IF>38), ACS Nano에 이은 세계 정상급 나노바이오 저널 연속 발표",
+        keywords: ["나노바이오", "암면역치료", "피부항노화", "약물전달(DDS)", "생체재료"],
+        metrics: { citations: 29, tlv: "TRL 4 (원천기술/전임상)" }
+      },
+      {
+        id: "TU-2025-3DBIO-01",
+        title: "Rete Ridge 구조를 모사한 3D 바이오프린팅 인체 피부 모델 및 조직 유사체 제작",
+        category: "바이오·나노",
+        professors: ["윤원수 교수", "진송완 교수", "심진형 교수"],
+        department: "기계공학과 / 3D바이오프린팅연구소",
+        year: "2025",
+        type: "PAPER",
+        typeName: "국제 우수저널",
+        journal: "Advanced Healthcare Materials (2025) & Int. J. of Bioprinting",
+        summary: "인간 피부 표피-진피 간 미세 굴곡 구조를 3D 프린팅으로 정밀 재현하고 혈관 내피세포 코팅 미세조직의 체적 조립을 구현한 인공장기 플랫폼.",
+        impact: "동물대체시험법 글로벌 규제 대응 및 신약·화장품 효능 평가의 정확도를 획기적으로 개선",
+        keywords: ["3D바이오프린팅", "인공장기", "인공피부", "조직공학", "동물대체시험"],
+        metrics: { citations: 42, tlv: "TRL 6 (생체모사 모델 검증)" }
+      },
+      {
+        id: "TU-2026-ELEC-01",
+        title: "초소형 광학엔진용 딥러닝 기반 레이저 스펙클(Speckle) 노이즈 저감 알고리즘",
+        category: "전자·소프트웨어",
+        professors: ["김수민 교수"],
+        department: "전자공학부",
+        year: "2026",
+        type: "TECH_TRANSFER",
+        typeName: "대형 기술이전 계약",
+        journal: "산업체 기술이전 완료 (브라이튼코퍼레이션 등)",
+        summary: "고화질 레이저 프로젝터 및 디스플레이 장치에서 불가피하게 발생하는 스펙클 반사 노이즈를 AI 딥러닝 영상필터링으로 실시간 상쇄하는 광학 기술.",
+        impact: "수억원 대의 기업 기술이전 달성 및 차세대 모빌리티 HUD/광학엔진 양산 적용 협약",
+        keywords: ["레이저스펙클", "노이즈저감", "영상AI", "광학엔진", "기술이전"],
+        metrics: { citations: 12, tlv: "TRL 8 (상용화 기술이전)" }
+      },
+      {
+        id: "TU-2026-SW-01",
+        title: "엣지 컴퓨팅 및 산업용 고신뢰 운영체제(OS) 실시간 이중화 복구 아키텍처",
+        category: "전자·소프트웨어",
+        professors: ["박성원 교수"],
+        department: "국제미래공학부",
+        year: "2026",
+        type: "TECH_TRANSFER",
+        typeName: "기업 기술이전",
+        journal: "산업체 기술이전 완료",
+        summary: "제조공장 엣지 디바이스 및 스마트 시스템 장애 시 0.1초 이내에 보조 코어로 무중단 전환되는 미션 크리티컬 OS 이중화 및 데이터 복구 원천 시스템.",
+        impact: "데이터 손실 방지율 99.999% 확보, 산업용 임베디드 장비 전문기업 기술이전 성과",
+        keywords: ["OS이중화", "무중단복구", "임베디드시스템", "데이터보호", "기술이전"],
+        metrics: { citations: 9, tlv: "TRL 8 (기술이전 완료)" }
+      },
+      {
+        id: "TU-2026-AI-KIOSK",
+        title: "무인 스마트 키오스크용 멀티모달 인터페이스 및 자동화 음료 캡슐 조제 메커니즘",
+        category: "스마트기계",
+        professors: ["이낙범 교수"],
+        department: "전자공학부",
+        year: "2026",
+        type: "TECH_TRANSFER",
+        typeName: "기술이전 및 상용화",
+        journal: "기술이전 완료 및 공동 상용화 진행",
+        summary: "시각·음성·제스처를 동시 인식하는 멀티모달 AI UI와 정밀 유량제어 캡슐 추출 장치 메커니즘을 융합한 무인 리테일 매장용 로봇 솔루션.",
+        impact: "차세대 무인 매장 설비 제조기업으로의 대형 기술이전 및 현장 필드테스트 전개",
+        keywords: ["멀티모달AI", "무인키오스크", "정밀메커니즘", "F&B자동화", "기술이전"],
+        metrics: { citations: 7, tlv: "TRL 7 (시제품 상용 검증)" }
+      },
+      {
+        id: "TU-2026-MOB-01",
+        title: "전기차 배터리 헬스모니터링(BHM) 및 모듈형 스와핑(Swapping) 지능형 시스템",
+        category: "미래모빌리티",
+        professors: ["첨단모빌리티 ICC 연구팀", "김응태 단장"],
+        department: "미래모빌리티 ICC & 미래차사업단",
+        year: "2026",
+        type: "PATENT",
+        typeName: "산학공동 R&D 및 특허",
+        journal: "인천모빌리티연합(IMU) 및 위카모빌리티 업무협약 R&D",
+        summary: "주행 중 배터리 셀 편차와 잔존 수명(SOH)을 AI로 실시간 진단하고 급속 배터리 팩 교체를 지원하는 교환형 스테이션 매핑 특허 기술.",
+        impact: "인천·경기 서남부 모빌리티 연합체와의 공동 R&D 체결, 경기도 RISE 핵심 모빌리티 프로젝트 추진",
+        keywords: ["배터리진단", "배터리스와핑", "전기차모빌리티", "SOH예측", "RISE사업"],
+        metrics: { citations: 15, tlv: "TRL 6 (산학 공동 실증)" }
+      },
+      {
+        id: "TU-2025-MAT-01",
+        title: "극한환경용 친환경 고온 내열 복합 신소재 및 유무기 하이브리드 코팅",
+        category: "신소재·에너지",
+        professors: ["신소재공학과 연구팀"],
+        department: "신소재공학과",
+        year: "2025",
+        type: "PAPER",
+        typeName: "국제저널 게재",
+        journal: "Composites Part B / ACS Applied Materials",
+        summary: "항공우주 및 수소 연료 배관 등 800℃ 이상 고온 극한환경에서도 열팽창과 산화를 견디는 친환경 나노 복합 코팅 박막 설계 기술.",
+        impact: "기존 세라믹 코팅 대비 중량 30% 절감 및 수명 2배 연장으로 방산 및 수소에너지 부품 적용 타진",
+        keywords: ["고온내열소재", "하이브리드코팅", "수소에너지", "나노신소재"],
+        metrics: { citations: 34, tlv: "TRL 5 (소재 특성 검증)" }
+      },
+      {
+        id: "TU-2024-AI-WELD",
+        title: "산업용 아크 용접 공정 실시간 결함 탐지를 위한 딥러닝 비전 센싱 시스템",
+        category: "스마트기계",
+        professors: ["지능형제조공학 연구팀"],
+        department: "메카트로닉스공학부",
+        year: "2024",
+        type: "PAPER",
+        typeName: "국제저널 게재",
+        journal: "Journal of Manufacturing Processes",
+        summary: "고온의 아크 플라즈마 빛 간섭 환경에서도 용접 비드 형상과 내부 기공을 합성곱 신경망(CNN) 기반 비전으로 실시간 검출하는 인공지능 검사 장치.",
+        impact: "시화·반월 스마트산단 내 금속가공 및 협력업체 불량률 40% 감축 기여",
+        keywords: ["아크용접", "비전AI", "결함검출", "스마트공장", "반월시화산단"],
+        metrics: { citations: 38, tlv: "TRL 7 (현장 파일럿 라인 적용)" }
+      }
+    ];
+
+    // State Variables
+    let currentCategory = "ALL";
+    let currentYear = "ALL";
+    let currentType = "ALL";
+    let currentSearch = "";
+    let bookmarks = JSON.parse(localStorage.getItem("tuk_bookmarks") || "[]");
+    let activeModalId = null;
+    let filteredList = [];
+
+    // Categories List (단색 플랫)
+    const categories = [
+      { id: "ALL", name: "전체 분야", icon: "layers" },
+      { id: "반도체·AI제조", name: "반도체 & AI제조", icon: "cpu" },
+      { id: "바이오·나노", name: "바이오 & 나노", icon: "flask-conical" },
+      { id: "전자·소프트웨어", name: "전자 & SW", icon: "code" },
+      { id: "스마트기계", name: "스마트기계 & 로봇", icon: "cog" },
+      { id: "미래모빌리티", name: "미래모빌리티", icon: "car" },
+      { id: "신소재·에너지", name: "신소재 & 에너지", icon: "zap" }
+    ];
+
+    // Init
+    document.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+      renderCategoryPills();
+      updateBookmarksBadge();
+      initFlatCharts();
+      filterAndRender();
+
+      // Listeners
+      document.getElementById("search-input").addEventListener("input", (e) => {
+        currentSearch = e.target.value.trim().toLowerCase();
+        document.getElementById("clear-search").classList.toggle("hidden", !currentSearch);
+        filterAndRender();
+      });
+
+      document.getElementById("clear-search").addEventListener("click", () => {
+        document.getElementById("search-input").value = "";
+        currentSearch = "";
+        document.getElementById("clear-search").classList.add("hidden");
+        filterAndRender();
+      });
+
+      document.getElementById("year-filter").addEventListener("change", (e) => {
+        currentYear = e.target.value;
+        filterAndRender();
+      });
+
+      document.getElementById("type-filter").addEventListener("change", (e) => {
+        currentType = e.target.value;
+        filterAndRender();
+      });
+
+      document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
+      // Carousel Scroll Observer
+      const container = document.getElementById("carousel-container");
+      container.addEventListener("scroll", updateCarouselIndicator);
+
+      lucide.createIcons();
+    });
+
+    // Theme Handler
+    function initTheme() {
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    function toggleTheme() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      lucide.createIcons();
+      updateChartsTheme();
+    }
+
+    // Category Pills (단색 플랫 버튼)
+    function renderCategoryPills() {
+      const container = document.getElementById("category-pills");
+      container.innerHTML = categories.map(cat => {
+        const isActive = currentCategory === cat.id;
+        return `
+          <button 
+            onclick="setCategory('${cat.id}')"
+            class="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center gap-1.5 ${
+              isActive 
+                ? 'bg-slate-800 text-white dark:bg-sky-700' 
+                : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
+            }"
+          >
+            <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
+            <span>${cat.name}</span>
+          </button>
+        `;
+      }).join("");
+      lucide.createIcons();
+    }
+
+    function setCategory(catId) {
+      currentCategory = catId;
+      renderCategoryPills();
+      filterAndRender();
+    }
+
+    // Filter & Render in Carousel
+    function filterAndRender() {
+      filteredList = researchData.filter(item => {
+        if (currentCategory !== "ALL" && item.category !== currentCategory) return false;
+        if (currentYear !== "ALL" && item.year !== currentYear) return false;
+        if (currentType !== "ALL" && item.type !== currentType) return false;
+        if (currentSearch) {
+          const matchTarget = (
+            item.title + 
+            item.professors.join(" ") + 
+            item.department + 
+            item.summary + 
+            item.keywords.join(" ") + 
+            item.journal
+          ).toLowerCase();
+          if (!matchTarget.includes(currentSearch)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("results-count").textContent = filteredList.length;
+      const container = document.getElementById("carousel-container");
+      const emptyState = document.getElementById("empty-state");
+
+      if (filteredList.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        document.getElementById("carousel-dots").innerHTML = "";
+        document.getElementById("carousel-current").textContent = "0";
+        document.getElementById("carousel-total").textContent = "0";
+      } else {
+        emptyState.classList.add("hidden");
+        container.innerHTML = filteredList.map((item, idx) => createCarouselCardHTML(item, idx)).join("");
+        renderCarouselDots();
+        container.scrollLeft = 0;
+        updateCarouselIndicator();
+      }
+
+      lucide.createIcons();
+    }
+
+    // 단색 플랫 뱃지
+    function getFlatTypeBadge(type, typeName) {
+      switch(type) {
+        case "AWARD":
+          return `<span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200 dark:border-amber-900"><i data-lucide="trophy" class="w-3 h-3 text-amber-600"></i> ${typeName}</span>`;
+        case "TECH_TRANSFER":
+          return `<span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900"><i data-lucide="handshake" class="w-3 h-3 text-emerald-600"></i> ${typeName}</span>`;
+        case "PATENT":
+          return `<span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700"><i data-lucide="shield-check" class="w-3 h-3 text-slate-600"></i> ${typeName}</span>`;
+        default:
+          return `<span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-sky-50 text-sky-800 dark:bg-sky-950/50 dark:text-sky-300 border border-sky-200 dark:border-sky-900"><i data-lucide="file-text" class="w-3 h-3 text-sky-600"></i> ${typeName}</span>`;
+      }
+    }
+
+    // Horizontal Carousel Card Component (단색 플랫 카드)
+    function createCarouselCardHTML(item, idx) {
+      const isBookmarked = bookmarks.includes(item.id);
+      return `
+        <div class="carousel-slide flex-none w-[310px] sm:w-[350px] md:w-[370px] bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <!-- Top Badges & Actions -->
+            <div class="flex items-center justify-between gap-2 mb-2.5">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                  ${item.category}
+                </span>
+                ${getFlatTypeBadge(item.type, item.typeName)}
+              </div>
+              <button 
+                onclick="toggleBookmark('${item.id}', event)" 
+                class="text-slate-400 hover:text-amber-500 transition p-1"
+                title="관심 연구 보관"
+              >
+                <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? 'text-amber-500 fill-amber-500' : ''}"></i>
+              </button>
+            </div>
+
+            <!-- Title -->
+            <h4 onclick="openDetailModal('${item.id}')" class="font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-snug hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer transition line-clamp-2 mb-2">
+              ${item.title}
+            </h4>
+
+            <!-- Researchers -->
+            <div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-2.5">
+              <span class="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400"></i>
+                ${item.professors.join(", ")}
+              </span>
+              <span>•</span>
+              <span class="truncate">${item.department}</span>
+            </div>
+
+            <!-- Journal -->
+            <div class="text-[11px] font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2.5 py-1 rounded border border-slate-100 dark:border-slate-700 mb-2.5 flex items-center gap-1.5 truncate">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span class="truncate">${item.journal}</span>
+            </div>
+
+            <!-- Summary -->
+            <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-3">
+              ${item.summary}
+            </p>
+
+            <!-- Keywords -->
+            <div class="flex flex-wrap gap-1 mb-2">
+              ${item.keywords.slice(0, 3).map(k => `
+                <span onclick="filterByKeyword('${k}')" class="text-[10px] font-medium px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 cursor-pointer transition">
+                  #${k}
+                </span>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- Bottom Action Bar -->
+          <div class="pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs mt-2">
+            <span class="text-slate-400 text-[11px]">
+              ${item.year}년 발표
+            </span>
+            <div class="flex items-center gap-2">
+              <button onclick="openInquiryModal('${item.title.replace(/'/g, "\\'")}')" class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-xs">
+                협력 문의
+              </button>
+              <button onclick="openDetailModal('${item.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded text-xs font-medium flex items-center gap-1 transition">
+                상세보기 <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Carousel Navigation Functions
+    function scrollCarousel(direction) {
+      const container = document.getElementById("carousel-container");
+      const cardWidth = 350;
+      container.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    }
+
+    function renderCarouselDots() {
+      const dotsContainer = document.getElementById("carousel-dots");
+      dotsContainer.innerHTML = filteredList.map((_, i) => `
+        <button 
+          onclick="scrollToSlide(${i})" 
+          class="w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-slate-700 dark:bg-slate-300 w-4' : 'bg-slate-300 dark:bg-slate-700'}"
+          id="carousel-dot-${i}"
+          aria-label="${i+1}번째 연구 카드로 이동"
+        ></button>
+      `).join("");
+    }
+
+    function scrollToSlide(index) {
+      const container = document.getElementById("carousel-container");
+      const cardWidth = 350;
+      container.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+    }
+
+    function updateCarouselIndicator() {
+      const container = document.getElementById("carousel-container");
+      const cardWidth = 330;
+      const scrollPos = container.scrollLeft;
+      const currentIndex = Math.min(Math.round(scrollPos / cardWidth), filteredList.length - 1);
+      
+      document.getElementById("carousel-current").textContent = filteredList.length > 0 ? (currentIndex + 1) : 0;
+      document.getElementById("carousel-total").textContent = filteredList.length;
+
+      filteredList.forEach((_, i) => {
+        const dot = document.getElementById(`carousel-dot-${i}`);
+        if (dot) {
+          if (i === currentIndex) {
+            dot.className = "w-4 h-2 rounded-full bg-slate-700 dark:bg-slate-300 transition-all";
+          } else {
+            dot.className = "w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 transition-all";
+          }
+        }
+      });
+    }
+
+    // Modal Details Handler
+    function openDetailModal(id) {
+      const item = researchData.find(d => d.id === id);
+      if (!item) return;
+
+      activeModalId = id;
+      const modal = document.getElementById("detail-modal");
+      document.getElementById("modal-badges").innerHTML = `
+        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${item.category}</span>
+        ${getFlatTypeBadge(item.type, item.typeName)}
+        <span class="text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">${item.year}년</span>
+      `;
+      document.getElementById("modal-title").textContent = item.title;
+
+      const isBookmarked = bookmarks.includes(id);
+      const bBtn = document.getElementById("modal-bookmark-btn");
+      bBtn.innerHTML = `
+        <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? 'text-amber-500 fill-amber-500' : ''}"></i>
+        <span>${isBookmarked ? '보관 해제' : '관심 연구 저장'}</span>
+      `;
+
+      document.getElementById("modal-content").innerHTML = `
+        <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700 space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-slate-900 dark:text-white">연구진:</span>
+            <span class="text-slate-700 dark:text-slate-300">${item.professors.join(", ")}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-slate-900 dark:text-white">소속:</span>
+            <span class="text-slate-700 dark:text-slate-300">${item.department}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-slate-900 dark:text-white">발표/수상:</span>
+            <span class="text-slate-700 dark:text-slate-300">${item.journal}</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">연구 내용 및 기술 개요</h4>
+          <p class="text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-900 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800">
+            ${item.summary}
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 dark:text-white mb-1">기대 효과 및 산업적 파급력</h4>
+          <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700 leading-relaxed text-slate-700 dark:text-slate-300">
+            ${item.impact}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span class="text-[11px] text-slate-500 block">기술성숙도 (TRL)</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200 text-xs">${item.metrics.tlv}</span>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span class="text-[11px] text-slate-500 block">핵심 키워드</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200 text-xs truncate block">${item.keywords.join(", ")}</span>
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="openInquiryModal('${item.title.replace(/'/g, "\\'")}')" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-slate-900 dark:bg-sky-700 text-white font-medium rounded-lg text-xs flex items-center justify-center gap-1.5 transition">
+            <i data-lucide="mail" class="w-3.5 h-3.5"></i> 이 기술에 대해 산학협력 문의하기
+          </button>
+        </div>
+      `;
+
+      modal.classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeDetailModal() {
+      document.getElementById("detail-modal").classList.add("hidden");
+      activeModalId = null;
+    }
+
+    // Bookmark Handling
+    function toggleBookmark(id, event) {
+      if (event) event.stopPropagation();
+      const index = bookmarks.indexOf(id);
+      if (index === -1) {
+        bookmarks.push(id);
+        showToast("관심 연구 성과에 저장되었습니다.");
+      } else {
+        bookmarks.splice(index, 1);
+        showToast("보관함에서 제거되었습니다.");
+      }
+      localStorage.setItem("tuk_bookmarks", JSON.stringify(bookmarks));
+      updateBookmarksBadge();
+      filterAndRender();
+      renderBookmarkDrawerList();
+    }
+
+    function toggleModalBookmark() {
+      if (!activeModalId) return;
+      toggleBookmark(activeModalId);
+      const isBookmarked = bookmarks.includes(activeModalId);
+      const bBtn = document.getElementById("modal-bookmark-btn");
+      bBtn.innerHTML = `
+        <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? 'text-amber-500 fill-amber-500' : ''}"></i>
+        <span>${isBookmarked ? '보관 해제' : '관심 연구 저장'}</span>
+      `;
+      lucide.createIcons();
+    }
+
+    function updateBookmarksBadge() {
+      const badge = document.getElementById("bookmark-badge");
+      badge.textContent = bookmarks.length;
+      badge.classList.toggle("hidden", bookmarks.length === 0);
+      document.getElementById("drawer-count").textContent = bookmarks.length;
+    }
+
+    function toggleBookmarkDrawer() {
+      const drawer = document.getElementById("bookmark-drawer");
+      const isHidden = drawer.classList.contains("hidden");
+      if (isHidden) {
+        renderBookmarkDrawerList();
+        drawer.classList.remove("hidden");
+      } else {
+        drawer.classList.add("hidden");
+      }
+      lucide.createIcons();
+    }
+
+    function renderBookmarkDrawerList() {
+      const container = document.getElementById("bookmark-list");
+      const bookmarkedItems = researchData.filter(d => bookmarks.includes(d.id));
+
+      if (bookmarkedItems.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 text-slate-400">
+            <i data-lucide="bookmark" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+            <p class="text-xs">보관된 연구 성과가 없습니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = bookmarkedItems.map(item => `
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 flex items-start justify-between gap-2.5 text-xs">
+          <div class="flex-grow cursor-pointer" onclick="closeDrawerAndOpenModal('${item.id}')">
+            <span class="text-[10px] font-bold text-slate-500 uppercase">${item.category} • ${item.year}</span>
+            <h5 class="font-bold text-slate-800 dark:text-white line-clamp-2 mt-0.5">${item.title}</h5>
+            <p class="text-slate-500 mt-1">${item.professors.join(", ")}</p>
+          </div>
+          <button onclick="toggleBookmark('${item.id}')" class="text-slate-400 hover:text-rose-500 transition p-1">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    function closeDrawerAndOpenModal(id) {
+      toggleBookmarkDrawer();
+      openDetailModal(id);
+    }
+
+    function clearAllBookmarks() {
+      if (confirm("보관된 모든 연구 성과를 삭제하시겠습니까?")) {
+        bookmarks = [];
+        localStorage.setItem("tuk_bookmarks", JSON.stringify(bookmarks));
+        updateBookmarksBadge();
+        renderBookmarkDrawerList();
+        filterAndRender();
+        showToast("보관함이 비워졌습니다.");
+      }
+    }
+
+    function copyBookmarkList() {
+      const bookmarkedItems = researchData.filter(d => bookmarks.includes(d.id));
+      if (bookmarkedItems.length === 0) {
+        showToast("복사할 연구 항목이 없습니다.");
+        return;
+      }
+      const text = bookmarkedItems.map((b, i) => `${i+1}. [${b.category}] ${b.title} - ${b.professors.join(",")}`).join("\n");
+      navigator.clipboard.writeText("한국공학대학교 관심 연구 성과:\n" + text).then(() => {
+        showToast("목록이 클립보드에 복사되었습니다.");
+      });
+    }
+
+    function filterByKeyword(kw) {
+      document.getElementById("search-input").value = kw;
+      currentSearch = kw.toLowerCase();
+      document.getElementById("clear-search").classList.remove("hidden");
+      if (activeModalId) closeDetailModal();
+      filterAndRender();
+      window.scrollTo({ top: 380, behavior: 'smooth' });
+    }
+
+    function resetAllFilters() {
+      currentCategory = "ALL";
+      currentYear = "ALL";
+      currentType = "ALL";
+      currentSearch = "";
+      document.getElementById("search-input").value = "";
+      document.getElementById("year-filter").value = "ALL";
+      document.getElementById("type-filter").value = "ALL";
+      document.getElementById("clear-search").classList.add("hidden");
+      renderCategoryPills();
+      filterAndRender();
+    }
+
+    function openInquiryModal(defaultSubject = "") {
+      document.getElementById("inquiry-subject").value = defaultSubject;
+      document.getElementById("inquiry-modal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeInquiryModal() {
+      document.getElementById("inquiry-modal").classList.add("hidden");
+    }
+
+    function submitInquiry(e) {
+      e.preventDefault();
+      showToast("문의가 성공적으로 접수되었습니다.");
+      closeInquiryModal();
+      e.target.reset();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-message").textContent = msg;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 2500);
+    }
+
+    // 2. 단색 플랫 차트
+    let categoryChartInstance = null;
+    let annualChartInstance = null;
+
+    function initFlatCharts() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#94a3b8' : '#64748b';
+
+      const catCounts = {
+        "반도체·AI제조": 0,
+        "바이오·나노": 0,
+        "전자·소프트웨어": 0,
+        "스마트기계": 0,
+        "미래모빌리티": 0,
+        "신소재·에너지": 0
+      };
+      researchData.forEach(d => {
+        if (catCounts[d.category] !== undefined) catCounts[d.category]++;
+      });
+
+      const ctxCat = document.getElementById('categoryChart').getContext('2d');
+      categoryChartInstance = new Chart(ctxCat, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(catCounts),
+          datasets: [{
+            data: Object.values(catCounts),
+            backgroundColor: [
+              '#3b82f6', // blue
+              '#10b981', // emerald
+              '#6366f1', // indigo
+              '#f59e0b', // amber
+              '#ec4899', // rose
+              '#8b5cf6'  // violet
+            ],
+            borderWidth: 2,
+            borderColor: isDark ? '#0f172a' : '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: textColor,
+                boxWidth: 8,
+                padding: 10,
+                font: { size: 10, family: 'Pretendard' }
+              }
+            }
+          },
+          cutout: '72%'
+        }
+      });
+
+      const ctxAnnual = document.getElementById('annualChart').getContext('2d');
+      annualChartInstance = new Chart(ctxAnnual, {
+        type: 'bar',
+        data: {
+          labels: ['2024년', '2025년', '2026년'],
+          datasets: [
+            {
+              label: 'SCI/우수저널',
+              data: [1, 2, 2],
+              backgroundColor: '#60a5fa',
+              borderRadius: 4
+            },
+            {
+              label: '기술이전 & 산학R&D',
+              data: [0, 0, 4],
+              backgroundColor: '#334155',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: textColor,
+                boxWidth: 8,
+                padding: 10,
+                font: { size: 10, family: 'Pretendard' }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: textColor, font: { family: 'Pretendard', size: 10 } }
+            },
+            y: {
+              grid: { color: isDark ? '#1e293b' : '#f1f5f9' },
+              ticks: { stepSize: 1, color: textColor, font: { family: 'Pretendard', size: 10 } }
+            }
+          }
+        }
+      });
+    }
+
+    function updateChartsTheme() {
+      if (categoryChartInstance && annualChartInstance) {
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#94a3b8' : '#64748b';
+        
+        categoryChartInstance.options.plugins.legend.labels.color = textColor;
+        categoryChartInstance.data.datasets[0].borderColor = isDark ? '#0f172a' : '#ffffff';
+        categoryChartInstance.update();
+
+        annualChartInstance.options.plugins.legend.labels.color = textColor;
+        annualChartInstance.options.scales.x.ticks.color = textColor;
+        annualChartInstance.options.scales.y.ticks.color = textColor;
+        annualChartInstance.options.scales.y.grid.color = isDark ? '#1e293b' : '#f1f5f9';
+        annualChartInstance.update();
+      }
+    }
+  </script>
+</body>
+</html>
